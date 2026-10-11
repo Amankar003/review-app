@@ -4,7 +4,7 @@ BUSINESSES = {
     "mahadev-properties": {
         "name": "Mahadev Properties",
         "tagline": "Trusted Real Estate Consultants & Property Advisory",
-        "logo_url": "/static/logo.png",
+        "logo_url": "logo.png",
         "place_id": "",
         "google_url": "https://www.google.com/search?q=mahadev+properties#lrd=0x39f4e180b1411a69:0xed0356b9ce030d0d,3,,,,",
         "language": "English",
@@ -29,7 +29,7 @@ BUSINESSES = {
     "demo": {
         "name": "Mahadev Properties",
         "tagline": "Trusted Real Estate Consultants & Property Advisory",
-        "logo_url": "/static/logo.png",
+        "logo_url": "logo.png",
         "place_id": "",
         "google_url": "https://www.google.com/search?q=mahadev+properties#lrd=0x39f4e180b1411a69:0xed0356b9ce030d0d,3,,,,",
         "language": "English",

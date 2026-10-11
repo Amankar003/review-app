@@ -4,10 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Rate Your Experience - Mahadev Properties</title>
+  <meta name="description" content="Share your verified experience & authentic review for Mahadev Properties. Quick AI-assisted 5-star Google review portal.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- OpenGraph / Social Sharing -->
+  <meta property="og:title" content="Rate Your Experience - Mahadev Properties">
+  <meta property="og:description" content="Official review portal for Mahadev Properties. Help us serve you better!">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
+  
+  <!-- Relative stylesheet works seamlessly on Netlify, Render & Localhost -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Ambient Background Glows -->
@@ -35,7 +48,7 @@
     <header class="header-card">
       <div class="brand-avatar-wrapper">
         <div class="avatar-ring"></div>
-        <img id="bizLogo" src="/static/logo.png" alt="Mahadev Properties Logo" class="brand-logo-img">
+        <img id="bizLogo" src="logo.png" alt="Mahadev Properties Logo" class="brand-logo-img">
         <div class="verified-badge" title="Official Business">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
@@ -220,6 +233,7 @@
     </footer>
   </div>
 
-  <script src="/static/app.js"></script>
+  <!-- Relative script works seamlessly on Netlify, Render & Localhost -->
+  <script src="app.js"></script>
 </body>
 </html>

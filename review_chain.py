@@ -37,22 +37,44 @@ chain = _build_chain()
 
 def _fallback(name: str, picked: list[str], rating: int = 5, language: str = "English") -> str:
     lang_lower = (language or "").lower()
+    points_str = ", ".join(picked) if picked else "honesty and professionalism"
+    
     if "hindi" in lang_lower and "hinglish" not in lang_lower:
-        opener = f"{name} ke sath mera anubhav bahut accha raha."
-        closer = "Main sabhi ko recommend karunga."
-        return f"{opener} {', '.join(p for p in picked)}. {closer}"
+        openers = [
+            f"{name} के साथ मेरा अनुभव बहुत ही शानदार और संतोषजनक रहा।",
+            f"{name} की टीम से प्रॉपर्टी सलाह लेकर बहुत खुशी हुई।",
+            f"मैं {name} की सेवा और मार्गदर्शन से बेहद संतुष्ट हूँ।",
+        ]
+        closers = [
+            "पूरी प्रक्रिया बहुत पारदर्शी रही, मैं सभी को इनकी सेवा लेने की सलाह दूंगा।",
+            "इनकी ईमानदार सलाह और सहयोग वास्तव में सराहनीय है। 5 स्टार!",
+            "प्रॉपर्टी से जुड़ी किसी भी आवश्यकता के लिए यह सबसे बेहतरीन विकल्प है।",
+        ]
+        return f"{random.choice(openers)} खासतौर पर इनकी {points_str} बहुत अच्छी लगी। {random.choice(closers)}"
     elif "hinglish" in lang_lower:
-        opener = f"{name} ke sath experience bohot accha raha."
-        closer = "Definitely recommend karunga sabhi ko!"
-        return f"{opener} Sab kuch kafi {', '.join(p.lower() for p in picked)} tha. {closer}"
+        openers = [
+            f"{name} ke sath mera experience bohot hi badhiya raha!",
+            f"{name} ki team ke sath deal karke kaafi accha laga.",
+            f"Recently {name} se property guidance li, aur service sach me top class thi.",
+        ]
+        closers = [
+            "Definitely recommend karunga sabhi ko. Full 5 stars!",
+            "Bohot honest aur reliable guidance mili, thank you so much!",
+            "Smooth process aur trustworthy staff, strongly recommended!",
+        ]
+        return f"{random.choice(openers)} Khas taur par inki {', '.join(p.lower() for p in picked)} ne impress kiya. {random.choice(closers)}"
     else:
-        opener = random.choice([
-            f"Had a great experience with {name}.",
-            f"Really impressed with my experience at {name}.",
-            f"Very happy with the service from {name}.",
-        ])
-        closer = random.choice(["Would definitely recommend!", "Truly professional and reliable.", "Highly recommended."])
-        return f"{opener} Everything felt {', '.join(p.lower() for p in picked)}. {closer}"
+        openers = [
+            f"Had an outstanding experience with {name}!",
+            f"Really impressed with the quality and transparency at {name}.",
+            f"Very happy with the overall service and support from {name}.",
+        ]
+        closers = [
+            "Would definitely recommend them to anyone looking for trusted property advisory!",
+            "Truly professional, dependable, and genuine. 5 stars!",
+            "The entire experience was seamless and stress-free. Highly recommended!",
+        ]
+        return f"{random.choice(openers)} Their team provided exceptional guidance with {', '.join(p.lower() for p in picked)}. {random.choice(closers)}"
 
 
 def generate_review(name: str, language: str, picked: list[str], rating: int = 5) -> str:
@@ -70,5 +92,5 @@ def generate_review(name: str, language: str, picked: list[str], rating: int = 5
         }).strip()
         return text or _fallback(name, picked, rating, language)
     except Exception as e:
-        print("LLM error:", e)
+        print("LLM error:", repr(e))
         return _fallback(name, picked, rating, language)

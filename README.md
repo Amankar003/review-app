@@ -1,6 +1,6 @@
-# AI Smart Review Engine & Desk Standee System
+# AI Smart Review Engine - Mahadev Properties
 
-An intelligent, multi-tenant Google Review generation and reputation management platform designed for local businesses. Currently configured with a live showcase for **Mahadev Properties** (Real Estate Consultants).
+An intelligent Google Review generation and reputation management platform designed for local businesses. Currently configured with a live showcase for **Mahadev Properties** (Real Estate Consultants).
 
 ---
 
@@ -8,23 +8,23 @@ An intelligent, multi-tenant Google Review generation and reputation management 
 
 1. **AI-Powered Review Writer**
    - Generates authentic, human-sounding 2–3 sentence reviews based on customer-selected chips (e.g., *Honest advice*, *Smooth process*, *Prime location*).
-   - Powered by ultra-fast Groq LLM inference (`openai/gpt-oss-120b`).
+   - Powered by ultra-fast Groq LLM inference (`openai/gpt-oss-120b` or `llama-3.3-70b-versatile`).
    - **Multi-Language Support**: English, Hinglish (conversational Roman Hindi), and Hindi (Devanagari).
-   - 1-Click Copy with auto-redirect to official Google Review write page.
+   - **Hybrid Zero-Fail Engine**: Runs with live Groq LLM when connected to backend, and seamlessly falls back to client-side smart generation on static hosting (Netlify) so reviews are never interrupted.
+   - 1-Click Copy with auto-redirect to official Google Review page.
 
 2. **Smart Negative Feedback Gating (1–3 Stars)**
    - Protects your public Google rating.
    - Customers selecting 1, 2, or 3 stars are routed to an exclusive **"VIP Founder's Desk"** private feedback form.
-   - Saves feedback, contact info, and timestamps privately to `feedback.json` instead of posting publicly to Google.
+   - Saves feedback, contact info, and timestamps privately (to `feedback.json` on backend and `localStorage` as offline backup).
 
-3. **Executive Desk QR Standee (`/` & `/qr/{slug}`)**
-   - High-resolution dynamic QR code generation (`/qr/{slug}.png`).
-   - Clean, professional acrylic desk standee display.
-   - Built-in **Print Table Standee** mode (automatically stripped of UI backgrounds for crisp, ink-friendly desktop printing) and PNG download button.
+3. **High-Resolution QR Code Engine (`/qr.png` or `/qr/{slug}.png`)**
+   - Dynamic QR code generation pointing directly to your live review portal.
+   - Perfect for printing on physical table stands, visiting cards, and billing receipts.
 
 4. **Multi-Tenant Architecture**
-   - Add new client businesses in seconds by adding an entry in `businesses.py`.
-   - Custom branding per business: business name, tagline, logo, custom questions/chips, and Google Review URL or `place_id`.
+   - Configure additional business profiles via `businesses.py` or query parameter `?biz=your-business`.
+   - Custom branding per business: business name, tagline, logo, custom questions/chips, and Google Review URL.
 
 ---
 
@@ -37,14 +37,15 @@ review-app/
 ├── review_chain.py        # LangChain + Groq LLM prompt chain & fallback engine
 ├── requirements.txt       # Python dependencies
 ├── feedback.json          # Private storage for 1-3 star feedback
+├── netlify.toml           # Netlify build and SPA routing configuration
 ├── .env.example           # Environment variables template
 ├── .env                   # Local environment secrets & config
 └── frontend/
     ├── index.html         # Mobile customer review application
-    ├── qr_standee.html    # Desk standee display & print layout
-    ├── app.js             # Review app state machine & API client
-    ├── style.css          # Premium theme (Glassmorphism, Dark/Light modes)
-    └── logo.png           # Business brand asset
+    ├── app.js             # Review app state machine & hybrid AI client
+    ├── style.css          # Premium theme (Obsidian & Gold luxury, Dark/Light modes)
+    ├── logo.png           # Business brand asset
+    └── _redirects         # Netlify routing redirects
 ```
 
 ---
@@ -77,20 +78,37 @@ Create or edit your `.env` file based on `.env.example`:
 ```ini
 GROQ_API_KEY=gsk_your_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-120b
-PUBLIC_BASE_URL=http://localhost:8000
+PUBLIC_BASE_URL=https://reviewmahadevproperties.netlify.app
 ```
 
-> **Note on `PUBLIC_BASE_URL`**: When hosting online (e.g., Render, Railway, VPS, or Ngrok), set `PUBLIC_BASE_URL` to your live public domain so generated QR codes point to your live site instead of localhost.
-
-### 4. Run the Application
+### 4. Run Locally
 
 ```powershell
 .\.venv\Scripts\python -m uvicorn main:app --reload --port 8000
 ```
 
 Open your browser at:
-- **Desk Standee**: [http://localhost:8000/](http://localhost:8000/) or [http://localhost:8000/qr/mahadev-properties](http://localhost:8000/qr/mahadev-properties)
-- **Customer Mobile Review Flow**: [http://localhost:8000/r/mahadev-properties](http://localhost:8000/r/mahadev-properties)
+- **Review Portal**: [http://localhost:8000/](http://localhost:8000/)
+- **QR Code Image**: [http://localhost:8000/qr.png](http://localhost:8000/qr.png)
+
+---
+
+## ☁️ Deployment
+
+### Frontend (Netlify)
+1. Push your repository to GitHub.
+2. In Netlify, connect your repo.
+3. Settings:
+   - **Base directory**: `.`
+   - **Publish directory**: `frontend`
+4. The site is live at your Netlify domain (e.g. `https://reviewmahadevproperties.netlify.app`).
+
+### Backend (Render / Railway / VPS - Optional for Live LLM)
+1. Deploy the repository as a Python Web Service on Render or Railway.
+2. Build Command: `pip install -r requirements.txt`
+3. Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+4. Add Environment Variables: `GROQ_API_KEY`, `GROQ_MODEL`, `PUBLIC_BASE_URL`.
+5. In Netlify frontend, point to your backend URL by adding `?api=https://your-backend.onrender.com` or setting it in `localStorage`.
 
 ---
 
@@ -98,43 +116,10 @@ Open your browser at:
 
 | Route | Method | Description |
 |---|---|---|
-| `/` | `GET` | Primary desk standee display |
-| `/qr/{slug}` | `GET` | Printable desk standee for specific business slug |
-| `/qr/{slug}.png` | `GET` | Dynamic high-resolution QR PNG stream |
-| `/r/{slug}` | `GET` | Customer review web application |
-| `/api/business/{slug}` | `GET` | Metadata, questions, and Google review target URL |
+| `/` | `GET` | Customer review web application |
+| `/qr.png` | `GET` | High-resolution dynamic QR PNG stream |
+| `/qr/{slug}.png` | `GET` | QR code for specific business slug |
+| `/r/{slug}` | `GET` | Slug redirect to review application |
+| `/api/business/{slug}` | `GET` | Business metadata, questions, and Google review URL |
 | `/api/generate` | `POST` | Generates AI review using selected rating, language, and chips |
 | `/api/feedback` | `POST` | Records private 1–3 star feedback to `feedback.json` |
-
----
-
-## 🏢 Adding a New Business Client
-
-Open `businesses.py` and add a new entry:
-
-```python
-BUSINESSES["city-cafe"] = {
-    "name": "City Cafe & Bakery",
-    "tagline": "Artisanal Coffee & Fresh Bakes",
-    "logo_url": "/static/logo.png",
-    "place_id": "ChIJN1t_tDeuEmsRUsoyG83frY4",  # Google Place ID or direct google_url
-    "google_url": "",
-    "language": "English",
-    "questions": [
-        {
-            "id": "food",
-            "q": "Khana aur Coffee kaisa laga?",
-            "options": ["Delicious coffee", "Freshly baked", "Great taste", "Must try pastries"],
-        },
-        {
-            "id": "service",
-            "q": "Service & Ambiance kaisa tha?",
-            "options": ["Cozy ambiance", "Friendly staff", "Quick service", "Clean & hygienic"],
-        },
-    ],
-}
-```
-
-Now immediately available at:
-- Standee: `http://localhost:8000/qr/city-cafe`
-- Mobile Review: `http://localhost:8000/r/city-cafe`
