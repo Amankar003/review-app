@@ -25,7 +25,7 @@ def _build_chain():
         return None
     llm = ChatGroq(
         groq_api_key=api_key,
-        model_name=os.getenv("GROQ_MODEL") or os.getenv("GROK_MODEL") or "llama-3.3-70b-versatile",
+        model_name=os.getenv("GROQ_MODEL") or os.getenv("GROK_MODEL") or "openai/gpt-oss-120b",
         temperature=0.7,
         max_tokens=300,
     )
