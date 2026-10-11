@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-dotenv
+qrcode[pil]
+langchain-core
+langchain-groq

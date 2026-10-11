@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>QR Standee - Mahadev Properties</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    /* Standee Specific Styling */
+    .standee-container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    .standee-card {
+      background: var(--card-bg);
+      border: 2px solid rgba(245, 158, 11, 0.35);
+      border-radius: 28px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 158, 11, 0.12);
+      backdrop-filter: blur(24px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .standee-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gold-gradient);
+    }
+
+    .standee-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 800;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .standee-logo-wrapper {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 12px;
+    }
+
+    .standee-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ffffff;
+      border: 3px solid var(--gold-primary);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .standee-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .standee-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0 0 16px;
+      font-weight: 500;
+    }
+
+    .standee-stars-row {
+      color: var(--gold-primary);
+      font-size: 22px;
+      letter-spacing: 4px;
+      margin-bottom: 18px;
+    }
+
+    /* QR Code Display Box */
+    .qr-frame {
+      position: relative;
+      display: inline-block;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      margin-bottom: 18px;
+    }
+
+    .qr-frame img {
+      display: block;
+      width: 220px;
+      height: 220px;
+      border-radius: 12px;
+    }
+
+    .scan-guide-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0 0 6px;
+    }
+
+    .scan-guide-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 20px;
+    }
+
+    .direct-url-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: monospace;
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+
+    /* Action Toolbar */
+    .standee-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-row .btn {
+      flex: 1;
+    }
+
+    /* Print Mode Styles (Clean White Desk Standee) */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .ambient-glow, .top-nav, .standee-actions, .app-footer, .theme-toggle {
+        display: none !important;
+      }
+      .standee-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .standee-card {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 30px !important;
+      }
+      .standee-title {
+        color: #000000 !important;
+      }
+      .standee-subtitle {
+        color: #444444 !important;
+      }
+      .qr-frame {
+        box-shadow: none !important;
+        border: 1px solid #cccccc !important;
+      }
+      .scan-guide-text {
+        color: #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-bottom"></div>
+
+  <div class="standee-container">
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <div class="trust-badge">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z"/>
+        </svg>
+        <span>Desk Standee Display</span>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle Theme" title="Toggle Dark/Light Mode">
+        <span class="theme-icon" id="themeIcon">&#9728;</span>
+      </button>
+    </div>
+
+    <!-- Executive Standee Card (Printable) -->
+    <div class="standee-card" id="printableCard">
+      <div class="standee-badge">&#10024; Rate Us On Google</div>
+
+      <div class="standee-logo-wrapper">
+        <img id="bizLogo" src="/static/logo.png" alt="Logo" class="standee-logo">
+      </div>
+
+      <h1 class="standee-title" id="bizTitle">Mahadev Properties</h1>
+      <p class="standee-subtitle" id="bizTagline">Trusted Real Estate Consultants & Property Advisory</p>
+
+      <div class="standee-stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+
+      <!-- High-res QR Code -->
+      <div class="qr-frame">
+        <img id="qrImg" src="/qr/mahadev-properties.png" alt="Scan to Review">
+      </div>
+
+      <div class="scan-guide-text">&#128247; Scan With Your Phone Camera</div>
+      <div class="scan-guide-sub">Point your camera to leave an AI-assisted review in 30 seconds</div>
+
+      <div class="direct-url-pill" id="directUrlPill">
+        <span>&#128279;</span>
+        <span id="targetUrlText">Loading URL...</span>
+      </div>
+
+      <!-- Action Toolbar (Hidden during Print) -->
+      <div class="standee-actions">
+        <a id="openReviewBtn" class="btn btn-primary-gold" href="/r/mahadev-properties">
+          <span>&#128241;</span> Open Review Page (Live Demo) &rarr;
+        </a>
+        
+        <div class="action-row">
+          <button type="button" class="btn btn-outline" id="printBtn">
+            <span>&#128424;</span> Print Table Standee
+          </button>
+          <a id="downloadQrBtn" class="btn btn-outline" href="/qr/mahadev-properties.png" download="Mahadev_Properties_QR.png">
+            <span>&#11015;</span> Download QR
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-powered">Powered by <span>AI Smart Review Engine</span></div>
+      <div class="footer-legal">&copy; 2026 Mahadev Properties. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Extract slug from URL (e.g. /qr/mahadev-properties or default to mahadev-properties)
+    const pathParts = location.pathname.split("/").filter(Boolean);
+    let slug = "mahadev-properties";
+    if (pathParts.length >= 2 && pathParts[0] === "qr") {
+      slug = pathParts[1].replace(".png", "");
+    }
+
+    // Elements
+    const qrImg = document.getElementById("qrImg");
+    const openReviewBtn = document.getElementById("openReviewBtn");
+    const downloadQrBtn = document.getElementById("downloadQrBtn");
+    const targetUrlText = document.getElementById("targetUrlText");
+    const printBtn = document.getElementById("printBtn");
+
+    // Dynamic URLs
+    const reviewUrl = `${location.origin}/r/${slug}`;
+    const qrSrc = `/qr/${slug}.png`;
+
+    qrImg.src = qrSrc;
+    openReviewBtn.href = reviewUrl;
+    downloadQrBtn.href = qrSrc;
+    targetUrlText.textContent = reviewUrl;
+
+    // Load Business Meta
+    fetch(`/api/business/${slug}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.name) document.getElementById("bizTitle").textContent = data.name;
+        if (data.tagline) document.getElementById("bizTagline").textContent = data.tagline;
+        if (data.logo_url) document.getElementById("bizLogo").src = data.logo_url;
+      })
+      .catch(() => {});
+
+    // Print Handler
+    printBtn.onclick = () => window.print();
+
+    // Theme Switcher
+    const toggleBtn = document.getElementById("themeToggle");
+    const icon = document.getElementById("themeIcon");
+    const saved = localStorage.getItem("preferred_theme") || "dark";
+    apply(saved);
+
+    toggleBtn.onclick = () => {
+      const cur = document.documentElement.getAttribute("data-theme") || "dark";
+      const next = cur === "dark" ? "light" : "dark";
+      apply(next);
+      localStorage.setItem("preferred_theme", next);
+    };
+
+    function apply(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      icon.innerHTML = t === "dark" ? "&#9728;" : "&#9790;";
+    }
+  </script>
+</body>
+</html>

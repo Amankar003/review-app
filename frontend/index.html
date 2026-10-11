@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Rate Your Experience - Mahadev Properties</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Ambient Background Glows -->
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-bottom"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-container">
+    <!-- Top Bar with Theme Toggle -->
+    <div class="top-nav">
+      <div class="trust-badge">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z"/>
+        </svg>
+        <span>Google Verified Review Partner</span>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle Theme" title="Toggle Dark/Light Mode">
+        <span class="theme-icon" id="themeIcon">&#9728;</span>
+      </button>
+    </div>
+
+    <!-- Header Hero Card -->
+    <header class="header-card">
+      <div class="brand-avatar-wrapper">
+        <div class="avatar-ring"></div>
+        <img id="bizLogo" src="/static/logo.png" alt="Mahadev Properties Logo" class="brand-logo-img">
+        <div class="verified-badge" title="Official Business">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 id="title">Mahadev Properties</h1>
+      <p class="tagline" id="tagline">Trusted Real Estate Consultants & Property Advisory</p>
+
+      <div class="rating-strip">
+        <span class="pulse-beacon"></span>
+        <div class="mini-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <span class="rating-stat"><strong>4.9</strong> (150+ Verified Reviews)</span>
+      </div>
+    </header>
+
+    <!-- Star Rating Section -->
+    <section class="card star-section">
+      <div class="section-label">Aapka Anubhav Kaisa Raha?</div>
+      <div class="stars-row" id="starsWrapper">
+        <button type="button" class="star-btn active" data-rating="1" aria-label="1 star">&#9733;</button>
+        <button type="button" class="star-btn active" data-rating="2" aria-label="2 stars">&#9733;</button>
+        <button type="button" class="star-btn active" data-rating="3" aria-label="3 stars">&#9733;</button>
+        <button type="button" class="star-btn active" data-rating="4" aria-label="4 stars">&#9733;</button>
+        <button type="button" class="star-btn active" data-rating="5" aria-label="5 stars">&#9733;</button>
+      </div>
+
+      <div class="rating-badge rating-5" id="ratingBadge">
+        <span class="badge-icon">&#10024;</span>
+        <span class="badge-text" id="ratingLabel">5 Stars - Shandar / Outstanding Experience!</span>
+      </div>
+    </section>
+
+    <!-- 4 & 5 Star Flow (Google Review Route) -->
+    <div id="positiveFlow">
+      <!-- Language Selection -->
+      <section class="card lang-card">
+        <div class="card-header-sm">
+          <span class="icon-label">&#127760;</span>
+          <span>Review ki Bhasha (Language):</span>
+        </div>
+        <div class="lang-pills">
+          <label class="lang-pill">
+            <input type="radio" name="lang" value="English" checked>
+            <span>English</span>
+          </label>
+          <label class="lang-pill">
+            <input type="radio" name="lang" value="Hinglish">
+            <span>Hinglish</span>
+          </label>
+          <label class="lang-pill">
+            <input type="radio" name="lang" value="Hindi">
+            <span>हिंदी (Hindi)</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Questions & Chips Block -->
+      <section class="card questions-card">
+        <div class="card-header-sm">
+          <span class="icon-label">&#9989;</span>
+          <span>Aapko kya sabse accha laga? (Select points):</span>
+        </div>
+        <div id="questions"></div>
+
+        <button class="btn btn-magic" id="gen">
+          <span class="btn-glow"></span>
+          <span class="magic-sparkle">&#10024;</span>
+          <span class="btn-text">Generate AI Review</span>
+          <span class="btn-arrow">&rarr;</span>
+        </button>
+      </section>
+
+      <!-- Generated Review Result Card -->
+      <section class="card result-card" id="result">
+        <div class="result-top-bar">
+          <div class="badge-ai-sentiment">
+            <span class="ai-dot"></span>
+            <span>AI Verified &bull; 100% Genuine</span>
+          </div>
+          <button type="button" class="btn-copy-chip" id="quickCopyBtn" title="Copy Text">
+            <span id="quickCopyIcon">&#128203;</span>
+            <span id="quickCopyText">Copy</span>
+          </button>
+        </div>
+
+        <div class="textarea-wrapper">
+          <textarea id="text" placeholder="Aapka authentic review yahan banega..."></textarea>
+        </div>
+
+        <div class="review-actions">
+          <button class="btn btn-outline" id="regen">
+            <span>&#8635;</span> Naya Banayein
+          </button>
+          <button class="btn btn-primary-gold" id="submit">
+            <span class="btn-icon">&#10003;</span>
+            <span>Submit & Post on Google</span>
+          </button>
+        </div>
+        <div id="msg"></div>
+      </section>
+    </div>
+
+    <!-- 1-3 Star Flow (Smart Private Feedback Gating) -->
+    <div id="negativeFlow" style="display: none;">
+      <section class="card concierge-card">
+        <div class="concierge-badge">VIP Founder's Desk</div>
+        <h2 class="concierge-title">Humein behtar banne me madad karein</h2>
+        <p class="concierge-desc">
+          Hamara aim hamesha 5-star standard dene ka hota hai. Kripya batayein kahan kami rahi, hamare founder ispar turant personally dhyan denge.
+        </p>
+
+        <div class="form-group">
+          <label for="fbText">Aapka Sujhaav ya Shikayat *</label>
+          <textarea id="fbText" rows="4" placeholder="Kripya batayein hum kya behtar kar sakte the..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fbName">Aapka Naam (Optional)</label>
+            <input type="text" id="fbName" placeholder="Aapka naam">
+          </div>
+          <div class="form-group">
+            <label for="fbPhone">Phone Number (Optional)</label>
+            <input type="tel" id="fbPhone" placeholder="Mobile number">
+          </div>
+        </div>
+
+        <button class="btn btn-gold" id="fbSubmit">
+          <span>&#128172;</span> Send Direct to Management
+        </button>
+        <div id="fbMsg"></div>
+      </section>
+    </div>
+
+    <!-- Step-by-Step Google Instructions Modal -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal-card">
+        <button type="button" class="modal-close" id="modalClose">&times;</button>
+        
+        <div class="modal-success-badge">
+          <span class="check-mark">&#10004;</span>
+          <span>Review Copied to Clipboard!</span>
+        </div>
+
+        <h3 class="modal-heading">Google par Review kaise daalein:</h3>
+
+        <div class="guide-steps">
+          <div class="guide-step-item">
+            <div class="step-badge">1</div>
+            <div class="step-info">
+              <strong>Google par 5-Star tap karein:</strong>
+              <div class="gold-star-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+          </div>
+          
+          <div class="guide-step-item">
+            <div class="step-badge">2</div>
+            <div class="step-info">
+              <strong>Box me 1-second press karke Paste karein:</strong>
+              <span class="step-hint">Review pehle se copy ho chuka hai!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="countdown-bar">
+          <div class="countdown-progress" id="countdownProgress"></div>
+        </div>
+        <div class="countdown-label" id="countdownText">Opening Google in 3 seconds...</div>
+
+        <a id="modalRedirectBtn" class="btn btn-primary-gold btn-block" href="#" target="_blank" rel="noopener noreferrer">
+          Open Google Reviews Now &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-powered">Powered by <span>AI Smart Review Engine</span></div>
+      <div class="footer-legal">&copy; 2026 Mahadev Properties. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
